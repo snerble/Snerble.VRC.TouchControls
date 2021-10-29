@@ -22,16 +22,11 @@ namespace Snerble.VRC.TouchControls.VRCPlayers
 
         private static void OnVRCPlayerAwake(VRCPlayer __instance)
         {
-            Log.Msg("PLAYER FUCKING WOKE");
-
             // OnAvatarIsReady
             __instance.Method_Public_add_Void_MulticastDelegateNPublicSealedVoUnique_0(new Action(() =>
             {
-                Log.Msg("AY YO {0}", __instance.prop_String_0);
                 if (__instance.prop_Player_0?.prop_ApiAvatar_0 != null)
                 {
-
-                    Log.Msg("NIGGERS {0}", __instance.prop_String_0);
                     AvatarIsReady?.Invoke(null, __instance);
                 }
             }));

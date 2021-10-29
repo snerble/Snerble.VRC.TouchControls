@@ -1,15 +1,13 @@
-﻿using MelonLoader;
-using Snerble.VRC.TouchControls.Parameters;
-using Snerble.VRC.TouchControls.Touch;
+﻿using Snerble.VRC.TouchControls.Parameters;
 using System;
 using System.Collections.Generic;
+using Log = MelonLoader.MelonLogger;
 
 namespace Snerble.VRC.TouchControls.VRCPlayers
 {
     public class VRCPlayerTouchManager
     {
-        private static SensorTest test;
-        private static readonly List<TouchParameterDriver> _paramDrivers = new List<TouchParameterDriver>();
+        private static readonly List<ParameterDriver> _paramDrivers = new List<ParameterDriver>();
 
         [Hook]
         public static void OnApplicationStart()
@@ -23,32 +21,37 @@ namespace Snerble.VRC.TouchControls.VRCPlayers
             Clear();
         }
 
-        private static void VRCPlayerUtils_CurrentPlayerReady(object sender, VRCPlayer e)
+        private static void VRCPlayerUtils_CurrentPlayerReady(object sender, VRCPlayer player)
         {
             Clear();
 
-            test = new SensorTest();
-            _paramDrivers.Add(new TouchParameterDriver(test.touchUnit, ParameterUtils.GetByName("Blade")));
+#if DEBUG
+            Log.Msg(ConsoleColor.Green, "Current player is ready"); 
+#endif
+
+            foreach (var d in player.gameObject.GetComponentsInChildren<DynamicBone>(true))
+            {
+                if (ParameterDriver.GetFromDynamicBone(d) is ParameterDriver driver)
+                {
+                    _paramDrivers.Add(driver);
+                    Log.Msg("Bound '{0}'", d.gameObject.name);
+                }
+            }
         }
 
-        private static void Clear()
-        {
-            test = null;
-            _paramDrivers.Clear();
-        }
+        private static void Clear() => _paramDrivers.Clear();
 
         [Hook]
         public static void OnUpdate()
         {
-            if (test == null)
-                return;
-
-            test.OnUpdate();
-
-            foreach (var driver in _paramDrivers)
+            try
             {
-                MelonLogger.Msg("Driving shit");
-                driver.Update();
+                foreach (var driver in _paramDrivers)
+                    driver.Update();
+            }
+            catch (NullReferenceException) // Occurs when the avatar unloads
+            {
+                Clear();
             }
         }
     }

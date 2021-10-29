@@ -1,5 +1,4 @@
-﻿using MelonLoader;
-using System;
+﻿using System;
 
 namespace Snerble.VRC.TouchControls.VRCPlayers
 {
@@ -17,7 +16,6 @@ namespace Snerble.VRC.TouchControls.VRCPlayers
 
         private static void VRCPlayerHooks_AvatarIsReady(object sender, VRCPlayer e)
         {
-            MelonLogger.Msg("An avatar is ready");
             if (e == CurrentPlayer)
                 CurrentPlayerReady?.Invoke(null, e);
         }

@@ -1,0 +1,3 @@
+[submodule "Snerble.VRC.TouchControls/ParamLib"]
+	path = Snerble.VRC.TouchControls/ParamLib
+	url = https://github.com/benaclejames/ParamLib.git

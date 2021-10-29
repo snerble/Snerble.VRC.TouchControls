@@ -2,13 +2,13 @@
 
 namespace Snerble.VRC.TouchControls.Touch
 {
-    public class SphereTouchSensor : TouchSensor
+    public class SphereTouchZone : TouchZone
     {
-        public SphereTouchSensor()
+        public SphereTouchZone()
         {
         }
 
-        public SphereTouchSensor(Vector3 position, float radius)
+        public SphereTouchZone(Vector3 position, float radius)
         {
             Position = position;
             Radius = radius;

@@ -18,7 +18,8 @@ namespace Snerble.VRC.TouchControls.Parameters
             if (avatarParams == null)
                 return null;
 
-            return avatarParams.entries
+            return avatarParams
+                .entries
                 .Select(x => x.value)
                 .Where(x => x != null)
                 .SingleOrDefault(x => x.prop_String_0.Equals(name));

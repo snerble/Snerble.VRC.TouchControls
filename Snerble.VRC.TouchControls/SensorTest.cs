@@ -14,7 +14,7 @@ namespace Snerble.VRC.TouchControls
         private GameObject sphere1;
         private GameObject sphere2;
 
-        public TouchUnit touchUnit;
+        public TouchSensor touchUnit;
 
         public SensorTest()
         {
@@ -27,8 +27,8 @@ namespace Snerble.VRC.TouchControls
             sphere1.SetActive(true);
             sphere2.SetActive(true);
 
-            touchUnit = new ToggleTouchUnit(
-                new ObjectTouchSensor(sphere1.transform, 0.5f),
+            touchUnit = new ToggleTouchSensor(
+                new ObjectTouchZone(sphere1.transform, 0.5f),
                 new[] { new ObjectTouchProbe(sphere2.transform, 0.5f) })
             {
                 

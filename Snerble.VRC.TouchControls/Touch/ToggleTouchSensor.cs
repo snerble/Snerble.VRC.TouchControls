@@ -3,16 +3,15 @@ using UnityEngine;
 
 namespace Snerble.VRC.TouchControls.Touch
 {
-    public sealed class ToggleTouchUnit : TouchUnit
+    public sealed class ToggleTouchSensor : TouchSensor
     {
         private float _threshold = 0.9f;
 
-        public ToggleTouchUnit(DynamicBone dynamicBone)
-            : base(new DynamicBoneTouchSensor(dynamicBone), DynamicBoneColliderTouchProbe.FromDynamicBones(dynamicBone))
+        public ToggleTouchSensor(DynamicBone dynamicBone) : base(dynamicBone)
         {
         }
 
-        public ToggleTouchUnit(TouchSensor sensor, IEnumerable<TouchProbe> probes) : base(sensor, probes)
+        public ToggleTouchSensor(TouchZone zone, IEnumerable<TouchProbe> probes) : base(zone, probes)
         {
         }
 
@@ -35,6 +34,7 @@ namespace Snerble.VRC.TouchControls.Touch
                 IsSet = !IsSet;
                 Latch = true;
             }
+
             // Latch release
             else if (Latch && f < Threshold)
             {

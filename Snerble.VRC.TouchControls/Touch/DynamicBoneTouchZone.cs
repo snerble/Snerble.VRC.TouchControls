@@ -1,48 +1,69 @@
-﻿using System;
+﻿using MelonLoader;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Snerble.VRC.TouchControls.Touch
 {
-    public sealed class DynamicBoneTouchSensor : AggregateTouchSensor
+    public sealed class DynamicBoneTouchZone : AggregateTouchZone
     {
-        private sealed class BoneSegmentSensor : TouchSensor
+        private sealed class ColliderTouchZone : TouchZone
         {
             private readonly Transform _bone;
             private readonly float _time;
             private readonly DynamicBone _dynamicBone;
 
-            public BoneSegmentSensor(Transform bone, float time, DynamicBone dynamicBone)
+#if DEBUG
+            private readonly GameObject proxy;
+#endif
+
+            public ColliderTouchZone(Transform bone, float time, DynamicBone dynamicBone)
             {
                 _bone = bone;
                 _time = time;
                 _dynamicBone = dynamicBone;
+
+#if DEBUG
+                proxy = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                proxy.SetActive(true); 
+#endif
             }
 
             public override float Measure(TouchProbe probe)
             {
-                float radius = _dynamicBone.m_RadiusDistrib.Evaluate(_time) * _dynamicBone.m_Radius;
-                var pos = _bone.position;
+                float radius = _dynamicBone.m_Radius;
+                if (_dynamicBone.m_RadiusDistrib.GetKeys().Length > 0)
+                    radius *= _dynamicBone.m_RadiusDistrib.Evaluate(_time);
 
-                return SphereUtils.GetIntersectionAmount(
+                var pos = _bone.position;
+                var measurement = SphereUtils.GetIntersectionAmount(
                     pos, radius,
                     probe.Position, probe.Radius);
+
+#if DEBUG
+                var color = Color.Lerp(Color.red, Color.green, measurement);
+                proxy.GetComponent<Renderer>().material.color = color;
+                proxy.transform.localScale = new Vector3(radius, radius, radius) * 2;
+                proxy.transform.position = pos;
+#endif
+
+                return measurement;
             }
         }
 
-        public DynamicBoneTouchSensor(DynamicBone dynamicBone)
+        public DynamicBoneTouchZone(DynamicBone dynamicBone)
             : base(GetSensors(dynamicBone))
         {
         }
 
-        private static IEnumerable<BoneSegmentSensor> GetSensors(DynamicBone dynamicBone)
+        private static IEnumerable<ColliderTouchZone> GetSensors(DynamicBone dynamicBone)
         {
             var dynamicBones = Walk(dynamicBone).ToArray();
             int maxDepth = dynamicBones.Max(x => x.Item1);
 
             return dynamicBones
-                .Select(x => new BoneSegmentSensor(
+                .Select(x => new ColliderTouchZone(
                     x.Item2,
                     x.Item1 / (float)maxDepth,
                     dynamicBone));

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Snerble.VRC.TouchControls
 {
@@ -9,6 +10,8 @@ namespace Snerble.VRC.TouchControls
 
     public static class StringUtils
     {
+        private static readonly Regex ArgumentSplitter = new Regex(@"([^""\s]+)|""((?:[^""]|\s)*)""", RegexOptions.Compiled | RegexOptions.Multiline);
+     
         public static string Table(
             string[] headers,
             object[][] items,
@@ -106,6 +109,20 @@ namespace Snerble.VRC.TouchControls
 
                 yield return sb.ToString();
             }
+        }
+
+
+        public static string[] Split(string s)
+        {
+            if (s is null)
+                return Array.Empty<string>();
+            return ArgumentSplitter
+                .Matches(s)
+                .Cast<Match>()
+                .Select(x => x.Groups.Cast<Group>()
+                    .Skip(1)
+                    .First(y => y.Success).Value)
+                .ToArray();
         }
     }
 

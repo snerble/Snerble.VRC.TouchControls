@@ -19,7 +19,14 @@ namespace Snerble.VRC.TouchControls
                 .Where(x => Attribute.IsDefined(x, typeof(HookAttribute)))
                 .ToArray();
 
-            MelonLogger.Msg(string.Join("\n", _hookMethods.Select(x => x.Name)));
+#if DEBUG
+            foreach (var hook in _hookMethods)
+            {
+                MelonLogger.Msg("Registered hook '{0}' in {1}",
+                    hook.Name,
+                    hook.DeclaringType);
+            }
+#endif
         }
 
         public static void InvokeHooks(object[] args = null, [CallerMemberName] string methodName = null)

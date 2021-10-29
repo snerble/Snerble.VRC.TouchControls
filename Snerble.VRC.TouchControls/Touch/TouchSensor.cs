@@ -3,17 +3,25 @@ using System.Linq;
 
 namespace Snerble.VRC.TouchControls.Touch
 {
-    public abstract class TouchSensor
+    public class TouchSensor
     {
-        public abstract float Measure(TouchProbe probe);
-    }
+        public TouchSensor(DynamicBone dynamicBone) : this(
+            new DynamicBoneTouchZone(dynamicBone),
+            DynamicBoneColliderTouchProbe.FromDynamicBones(dynamicBone))
+        {
+        }
 
-    public class AggregateTouchSensor : TouchSensor
-    {
-        private readonly TouchSensor[] _sensors;
+        public TouchSensor(
+            TouchZone zone,
+            IEnumerable<TouchProbe> probes)
+        {
+            Zone = zone;
+            Probes = probes.ToArray();
+        }
 
-        public AggregateTouchSensor(IEnumerable<TouchSensor> sensors) => _sensors = sensors.ToArray();
+        protected TouchZone Zone { get; }
+        protected TouchProbe[] Probes { get; }
 
-        public override float Measure(TouchProbe probe) => _sensors.Max(x => x.Measure(probe));
+        public virtual float Measure() => Probes.Max(x => Zone.Measure(x));
     }
 }
