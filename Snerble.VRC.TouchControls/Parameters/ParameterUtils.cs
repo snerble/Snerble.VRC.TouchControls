@@ -1,14 +1,9 @@
 ﻿using Snerble.VRC.TouchControls.VRCPlayers;
-using System.Linq;
-using VRC.Playables;
-using UnityEngine;
-using MelonLoader;
-using VRC;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Collections;
 using System;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.Animations;
+using VRC.Playables;
 
 namespace Snerble.VRC.TouchControls.Parameters
 {
@@ -48,10 +43,8 @@ namespace Snerble.VRC.TouchControls.Parameters
                     .Range(0, x.GetParameterCount())
                     .Select(i => Tuple.Create(x, x.GetParameter(i))))
                 .GroupBy(x => x.Item2?.name)
-                .Single(x => x.Key == name)
-                .ToArray();
-
-            MelonLogger.Msg("TESTTESTESTESTEST");
+                .SingleOrDefault(x => x.Key == name)
+                ?.ToArray();
 
             if (parameters == null)
                 return default;
