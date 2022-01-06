@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Snerble.VRC.TouchControls.Parameters
+namespace Snerble.VRC.TouchControls.Parsing
 {
-    public sealed class ArgumentConfigurationProvider
+    public sealed class ArgumentProvider
     {
         private readonly List<string> args = new List<string>();
         private readonly HashSet<string> flags = new HashSet<string>();
         private readonly Dictionary<object, string> kwargs = new Dictionary<object, string>();
 
-        public ArgumentConfigurationProvider(string s)
+        public ArgumentProvider(string s)
         {
-            var args = StringUtils.Split(s).ToList().GetEnumerator();
+            var args = s.SplitArgs().ToList().GetEnumerator();
             while (args.MoveNext())
             {
                 var arg = args.Current;

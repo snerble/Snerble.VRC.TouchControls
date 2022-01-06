@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Snerble.VRC.TouchControls.Parameters;
+using System;
 
 namespace Snerble.VRC.TouchControls.VRCPlayers
 {

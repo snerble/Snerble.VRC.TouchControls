@@ -1,4 +1,5 @@
-﻿using Snerble.VRC.TouchControls.Parameters;
+﻿using Snerble.VRC.TouchControls.Components;
+using Snerble.VRC.TouchControls.Shared.Sensors;
 using System;
 using System.Collections.Generic;
 using Log = MelonLoader.MelonLogger;
@@ -7,7 +8,7 @@ namespace Snerble.VRC.TouchControls.VRCPlayers
 {
     public class VRCPlayerTouchManager
     {
-        private static readonly List<ParameterDriver> _paramDrivers = new List<ParameterDriver>();
+        private static readonly List<Sensor> Sensors = new List<Sensor>();
 
         [Hook]
         public static void OnApplicationStart()
@@ -26,33 +27,34 @@ namespace Snerble.VRC.TouchControls.VRCPlayers
             Clear();
 
 #if DEBUG
-            Log.Msg(ConsoleColor.Green, "Current player is ready"); 
+            Log.Msg(ConsoleColor.Green, "Current player is ready");
 #endif
 
             foreach (var d in player.gameObject.GetComponentsInChildren<DynamicBone>(true))
             {
-                if (ParameterDriver.GetFromDynamicBone(d) is ParameterDriver driver)
+                if (!d.gameObject.name.StartsWith(SensorConstants.SensorIdentifier))
+                    continue;
+
+                try
                 {
-                    _paramDrivers.Add(driver);
-                    Log.Msg("Bound '{0}'", d.gameObject.name);
+                    var s = new Sensor(d.gameObject);
+                    Sensors.Add(s);
+                }
+                catch (Exception ex)
+                {
+                    ex = ex.InnerException ?? ex;
+                    Log.Error("Error while configuring sensor '{0}': {1}\n{2}",
+                        d.gameObject.name,
+                        ex.Message,
+                        ex.StackTrace);
                 }
             }
         }
 
-        private static void Clear() => _paramDrivers.Clear();
-
-        [Hook]
-        public static void OnUpdate()
+        private static void Clear()
         {
-            try
-            {
-                foreach (var driver in _paramDrivers)
-                    driver.Update();
-            }
-            catch (NullReferenceException) // Occurs when the avatar unloads
-            {
-                Clear();
-            }
+            Sensors.ForEach(x => x.Dispose());
+            Sensors.Clear();
         }
     }
 }

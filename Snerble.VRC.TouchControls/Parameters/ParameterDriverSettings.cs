@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Snerble.VRC.TouchControls.Parsing;
+using UnityEngine;
 using Log = MelonLoader.MelonLogger;
 
 namespace Snerble.VRC.TouchControls.Parameters
@@ -19,7 +20,7 @@ namespace Snerble.VRC.TouchControls.Parameters
 
         public static ParameterDriverSettings FromName(string s)
         {
-            var args = new ArgumentConfigurationProvider(s);
+            var args = new ArgumentProvider(s);
 
             // Assert identifier is present
             if (!args.GetArg(0, string.Empty).Equals(Identifier))

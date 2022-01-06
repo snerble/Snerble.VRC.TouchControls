@@ -5,9 +5,16 @@ VisualStudioVersion = 17.0.31808.319
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snerble.VRC.TouchControls", "Snerble.VRC.TouchControls\Snerble.VRC.TouchControls.csproj", "{1117A60D-14E5-4775-9513-22F888B068DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{A6ED2D00-880F-4AF9-B507-E3BF8BE9453A}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Snerble.VRC.TouchControls.Shared", "Snerble.VRC.TouchControls.Shared\Snerble.VRC.TouchControls.Shared.shproj", "{153449B8-7BE4-4629-9582-4AD59F0B66A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snerble.VRC.TouchControls.Shared.Deploy", "Snerble.VRC.TouchControls.Shared.Deploy\Snerble.VRC.TouchControls.Shared.Deploy.csproj", "{FC81145E-EC09-4476-B619-3D818D044189}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Snerble.VRC.TouchControls.Shared\Snerble.VRC.TouchControls.Shared.projitems*{1117a60d-14e5-4775-9513-22f888b068df}*SharedItemsImports = 5
+		Snerble.VRC.TouchControls.Shared\Snerble.VRC.TouchControls.Shared.projitems*{153449b8-7be4-4629-9582-4ad59f0b66a7}*SharedItemsImports = 13
+		Snerble.VRC.TouchControls.Shared\Snerble.VRC.TouchControls.Shared.projitems*{fc81145e-ec09-4476-b619-3d818d044189}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -17,10 +24,10 @@ Global
 		{1117A60D-14E5-4775-9513-22F888B068DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1117A60D-14E5-4775-9513-22F888B068DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1117A60D-14E5-4775-9513-22F888B068DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6ED2D00-880F-4AF9-B507-E3BF8BE9453A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6ED2D00-880F-4AF9-B507-E3BF8BE9453A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6ED2D00-880F-4AF9-B507-E3BF8BE9453A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6ED2D00-880F-4AF9-B507-E3BF8BE9453A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC81145E-EC09-4476-B619-3D818D044189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC81145E-EC09-4476-B619-3D818D044189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC81145E-EC09-4476-B619-3D818D044189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC81145E-EC09-4476-B619-3D818D044189}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

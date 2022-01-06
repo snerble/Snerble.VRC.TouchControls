@@ -112,7 +112,7 @@ namespace Snerble.VRC.TouchControls
         }
 
 
-        public static string[] Split(string s)
+        public static string[] SplitArgs(this string s)
         {
             if (s is null)
                 return Array.Empty<string>();

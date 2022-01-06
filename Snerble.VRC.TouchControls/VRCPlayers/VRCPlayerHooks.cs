@@ -23,7 +23,7 @@ namespace Snerble.VRC.TouchControls.VRCPlayers
         private static void OnVRCPlayerAwake(VRCPlayer __instance)
         {
             // OnAvatarIsReady
-            __instance.Method_Public_add_Void_MulticastDelegateNPublicSealedVoUnique_0(new Action(() =>
+            __instance.Method_Public_add_Void_OnAvatarIsReady_0(new Action(() =>
             {
                 if (__instance.prop_Player_0?.prop_ApiAvatar_0 != null)
                 {
@@ -55,27 +55,27 @@ namespace Snerble.VRC.TouchControls.VRCPlayers
             foreach (var param in @params)
             {
                 object value;
-                switch (param.prop_EnumNPublicSealedvaUnBoInFl5vUnique_0)
+                switch (param.prop_ParameterType_0)
                 {
-                    case AvatarParameter.EnumNPublicSealedvaUnBoInFl5vUnique.Bool:
+                    case AvatarParameter.ParameterType.Bool:
                         value = param.prop_Boolean_0;
                         break;
-                    case AvatarParameter.EnumNPublicSealedvaUnBoInFl5vUnique.Int:
+                    case AvatarParameter.ParameterType.Int:
                         value = param.prop_Int32_1;
                         break;
-                    case AvatarParameter.EnumNPublicSealedvaUnBoInFl5vUnique.Float:
+                    case AvatarParameter.ParameterType.Float:
                         value = param.prop_Single_0;
                         break;
 
                     default:
-                    case AvatarParameter.EnumNPublicSealedvaUnBoInFl5vUnique.Unknown:
+                    case AvatarParameter.ParameterType.Unknown:
                         throw new Exception("Unknown parameter type");
                 }
 
                 data.Add(new[]
                 {
                     param.prop_String_0?.ToString(), // Name
-                    param.prop_EnumNPublicSealedvaUnBoInFl5vUnique_0.ToString(), // Param type
+                    param.prop_ParameterType_0.ToString(), // Param type
                     value
                 });
             }
